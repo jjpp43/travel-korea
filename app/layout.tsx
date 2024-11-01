@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Crimson_Text, Heebo, Archivo, Cardo } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const crimsonText = Crimson_Text({
+  weight: ["400", "600", "700"],
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const heebo = Heebo({
+  subsets: ["latin"],
+  variable: "--font-heebo",
+  display: "swap",
+});
+
+const cardo = Cardo({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-archivo",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${crimsonText.className} ${cardo.className} ${heebo.variable} ${archivo.variable}antialiased`}
       >
         {children}
       </body>
