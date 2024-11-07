@@ -5,9 +5,21 @@ import { Button, ButtonGroup } from "@nextui-org/button";
 import { useState, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 import EmblaCarousel from "./components/imageCarousel";
+import { useInView } from "react-intersection-observer";
 
 export default function Home() {
   const [animate, setAnimate] = useState(false);
+  const [animateDown, setAnimateDown] = useState(false);
+
+  const { ref, inView } = useInView({
+    triggerOnce: false, // Trigger multiple times
+    threshold: 0.3, // Trigger when 50% of the element is in the viewport
+  });
+
+  // Set the animation state when the element comes into view
+  if (inView && !animateDown) {
+    setAnimateDown(true);
+  }
 
   useEffect(() => {
     setAnimate(true);
@@ -27,7 +39,7 @@ export default function Home() {
           {/* Bottom Left Section */}
           <div className="flex flex-col absolute bottom-0 left-0">
             <div
-              className={`font-crimson font-semibold text-3xl transform transition-all duration-1000 ease-in-out ${
+              className={`font-crimson font-bold text-3xl transform transition-all duration-1000 ease-in-out ${
                 animate ? "translate-x-0" : "-translate-x-full"
               }`}
             >
@@ -100,10 +112,11 @@ export default function Home() {
             </div>
             {/* Button Group */}
             <div className="flex flex-row gap-4 pt-8">
-              <Button className="font-archivo border bg-white bg-opacity-10 hover:bg-opacity-30 duration-300 h-11 px-8">
+              <Button className="focus:outline-none font-archivo border bg-white bg-opacity-10 hover:bg-opacity-30 duration-300 h-11 px-8">
                 Next
               </Button>
-              <Button className="font-archivo h-11 bg-white hover:bg-gray-300 duration-300 text-black px-8">
+
+              <Button className="focus:outline-none font-archivo h-11 bg-white hover:bg-gray-300 duration-300 text-black px-8">
                 Explore
               </Button>
             </div>
@@ -122,31 +135,34 @@ export default function Home() {
               viewBox="0 0 496 118"
               fill="black"
               xmlns="http://www.w3.org/2000/svg"
-              className="mix-blend-difference"
+              className=""
             >
               <path
-                className=""
+                className="mix-blend-difference"
                 d="M13.2344 63.8125V50.4531H38.7031C45.1094 50.4531 50.1354 48.9688 53.7812 46C57.4792 43.0312 59.3281 38.8385 59.3281 33.4219C59.3281 27.4844 57.6094 23.1875 54.1719 20.5312C50.7344 17.875 45.474 16.5469 38.3906 16.5469H18V116H0.265625V2.25H38.3906C50.474 2.25 59.9271 4.69792 66.75 9.59375C73.625 14.4896 77.0625 22.224 77.0625 32.7969C77.0625 37.4844 75.8906 41.7552 73.5469 45.6094C71.2552 49.4635 67.9219 52.6146 63.5469 55.0625C59.1719 57.4583 53.9115 58.9167 47.7656 59.4375L41.9844 63.8125H13.2344ZM7.0625 116L15.9688 101.781H41.2812C48.0521 101.781 53.2083 100.062 56.75 96.625C60.3438 93.1875 62.1406 88.6562 62.1406 83.0312C62.1406 79.0729 61.4375 75.6615 60.0312 72.7969C58.6771 69.9323 56.5156 67.7188 53.5469 66.1562C50.6302 64.5938 46.776 63.8125 41.9844 63.8125H20.1875V50.4531H49.4062L53.2344 55.5312C59.1719 55.7917 64.0938 57.224 68 59.8281C71.9583 62.3802 74.9271 65.6875 76.9062 69.75C78.8854 73.7604 79.875 78.1615 79.875 82.9531C79.875 93.7344 76.4115 101.938 69.4844 107.562C62.5573 113.188 53.1562 116 41.2812 116H7.0625ZM182.688 2.25V78.5781C182.688 87.224 180.786 94.4375 176.984 100.219C173.182 105.948 168.104 110.271 161.75 113.188C155.396 116.104 148.391 117.562 140.734 117.562C132.766 117.562 125.604 116.104 119.25 113.188C112.948 110.271 107.974 105.948 104.328 100.219C100.682 94.4375 98.8594 87.224 98.8594 78.5781V2.25H116.438V78.5781C116.438 84.2552 117.427 88.9167 119.406 92.5625C121.438 96.2083 124.276 98.9167 127.922 100.688C131.568 102.458 135.839 103.344 140.734 103.344C145.682 103.344 149.953 102.458 153.547 100.688C157.193 98.9167 160.005 96.2083 161.984 92.5625C163.964 88.9167 164.953 84.2552 164.953 78.5781V2.25H182.688ZM242.609 117.562C237.245 117.562 231.958 116.833 226.75 115.375C221.594 113.917 216.88 111.703 212.609 108.734C208.391 105.766 205.031 102.068 202.531 97.6406C200.031 93.2135 198.781 88.0573 198.781 82.1719H216.438C216.438 85.9219 217.115 89.151 218.469 91.8594C219.875 94.5156 221.776 96.7031 224.172 98.4219C226.62 100.141 229.406 101.417 232.531 102.25C235.708 103.031 239.068 103.422 242.609 103.422C247.505 103.422 251.594 102.745 254.875 101.391C258.208 99.9844 260.734 98.0573 262.453 95.6094C264.172 93.1094 265.031 90.2188 265.031 86.9375C265.031 83.6042 264.328 80.7917 262.922 78.5C261.568 76.1562 259.042 74.0208 255.344 72.0938C251.646 70.1146 246.359 68.1094 239.484 66.0781C233.964 64.4635 228.938 62.6146 224.406 60.5312C219.927 58.4479 216.021 56.0781 212.688 53.4219C209.354 50.7135 206.776 47.5885 204.953 44.0469C203.182 40.5052 202.297 36.4427 202.297 31.8594C202.297 25.8177 203.964 20.4531 207.297 15.7656C210.63 11.0781 215.266 7.40625 221.203 4.75C227.141 2.04167 234.042 0.6875 241.906 0.6875C250.448 0.6875 257.766 2.27604 263.859 5.45312C269.953 8.63021 274.589 12.849 277.766 18.1094C280.995 23.3698 282.609 29.099 282.609 35.2969H264.875C264.875 31.3385 264.042 27.8229 262.375 24.75C260.708 21.6771 258.156 19.2812 254.719 17.5625C251.333 15.7917 247.036 14.9062 241.828 14.9062C236.88 14.9062 232.792 15.6615 229.562 17.1719C226.333 18.6302 223.938 20.6354 222.375 23.1875C220.812 25.6875 220.031 28.5521 220.031 31.7812C220.031 34.75 220.917 37.3802 222.688 39.6719C224.51 41.9635 227.297 44.0469 231.047 45.9219C234.797 47.7448 239.562 49.5156 245.344 51.2344C253.833 53.6302 260.839 56.4427 266.359 59.6719C271.932 62.901 276.047 66.7292 278.703 71.1562C281.411 75.5833 282.766 80.7917 282.766 86.7812C282.766 93.0312 281.099 98.474 277.766 103.109C274.484 107.745 269.823 111.312 263.781 113.812C257.792 116.312 250.734 117.562 242.609 117.562ZM308.938 116H290.5L333.625 2.25H345.188L344.562 15.375L308.938 116ZM338.547 15.375L337.844 2.25H349.406L392.688 116H374.25L338.547 15.375ZM372.688 88.1875H309.719V73.8125H372.688V88.1875ZM495.734 116H478L424.406 32.0156V116H406.672V2.25H424.406L478.156 86.3906V2.25H495.734V116Z"
                 fill=""
               />
             </svg>
           </div>
+          {/* Title */}
+          <div className="absolute left-0 top-1/4 text-black text-start tracking-tight text-3xl font-crimson font-semibold">
+            Explore the spirit
+          </div>
           {/* Button Group */}
-          <div className="absolute left-0 top-32 flex flex-row gap-4 pt-8">
-            <Button className="font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
+          <div className="absolute left-0 bottom-24 flex flex-row gap-4 pt-8">
+            <Button className="focus:outline-none font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
               Next
             </Button>
-            <Button className="font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
+            <Button className="focus:outline-none font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
               Explore
             </Button>
           </div>
           {/* Text Area */}
-          <div className="font-cardo flex-wrap w-72 text-lg text-black absolute left-0 bottom-24 text-balance leading-normal">
+          <div className="font-cardo flex-wrap w-72 text-lg text-black absolute left-0 top-1/3 text-balance leading-normal">
             Busan, South Korea’s second-largest city, blends modernity and
             tradition. Enjoy stunning beaches like Haeundae, explore the lively
             Jagalchi Fish Market, and wander through Gamcheon Culture Village’s
-            colorful streets. With warm hospitality, vibrant festivals, and
-            fresh seafood Busan offers adventure along the scenic southern
+            colorful streets. Busan offers adventure along the scenic southern
             coast, making it a must-visit destination for every traveler.
           </div>
           {/* Image */}
@@ -266,7 +282,10 @@ export default function Home() {
                 </linearGradient>
               </defs>
             </svg>
-            <div className="font-cardo text-lg text-balance leading-normal w-[630px] text-end ">
+            <div className="text-start tracking-tight text-3xl font-crimson font-semibold">
+              Quiant Getaway
+            </div>
+            <div className="font-cardo text-lg text-balance leading-normal w-[630px] text-start ">
               Sokcho is one of the most nature friendly and environmentally
               clean cities in South Korea. With beautiful scenaries of the sea
               and mountains.
@@ -281,10 +300,10 @@ export default function Home() {
               />
               {/* Button Group */}
               <div className="absolute right-8 bottom-8 flex flex-row gap-4 pt-8 z-10">
-                <Button className="font-archivo border bg-white bg-opacity-10 hover:bg-opacity-30 duration-300 h-11 px-8">
+                <Button className="focus:outline-none font-archivo border bg-white bg-opacity-10 hover:bg-opacity-30 duration-300 h-11 px-8">
                   Next
                 </Button>
-                <Button className="font-archivo h-11 bg-white hover:bg-gray-300 duration-300 text-black px-8">
+                <Button className="focus:outline-none font-archivo h-11 bg-white hover:bg-gray-300 duration-300 text-black px-8">
                   Explore
                 </Button>
               </div>
@@ -301,6 +320,7 @@ export default function Home() {
           <div className="flex flex-col gap-8">
             {/* YEOSU Title */}
             <svg
+              ref={ref}
               xmlns="http://www.w3.org/2000/svg"
               width="488"
               height="117"
@@ -310,22 +330,37 @@ export default function Home() {
               <path
                 d="M487.422 1.5625V77.8906C487.422 86.5365 485.521 93.75 481.719 99.5312C477.917 105.26 472.839 109.583 466.484 112.5C460.13 115.417 453.125 116.875 445.469 116.875C437.5 116.875 430.339 115.417 423.984 112.5C417.682 109.583 412.708 105.26 409.062 99.5312C405.417 93.75 403.594 86.5365 403.594 77.8906V1.5625H421.172V77.8906C421.172 83.5677 422.161 88.2292 424.141 91.875C426.172 95.5208 429.01 98.2292 432.656 100C436.302 101.771 440.573 102.656 445.469 102.656C450.417 102.656 454.688 101.771 458.281 100C461.927 98.2292 464.74 95.5208 466.719 91.875C468.698 88.2292 469.688 83.5677 469.688 77.8906V1.5625H487.422Z"
                 fill="black"
+                className={`origin-top transition-transform duration-700 delay-100 ease-out ${
+                  animateDown ? "translate-y-0" : "-translate-y-full"
+                }`}
               />
               <path
                 d="M347.031 116.875C341.667 116.875 336.38 116.146 331.172 114.688C326.016 113.229 321.302 111.016 317.031 108.047C312.812 105.078 309.453 101.38 306.953 96.9531C304.453 92.526 303.203 87.3698 303.203 81.4844H320.859C320.859 85.2344 321.536 88.4635 322.891 91.1719C324.297 93.8281 326.198 96.0156 328.594 97.7344C331.042 99.4531 333.828 100.729 336.953 101.562C340.13 102.344 343.49 102.734 347.031 102.734C351.927 102.734 356.016 102.057 359.297 100.703C362.63 99.2969 365.156 97.3698 366.875 94.9219C368.594 92.4219 369.453 89.5312 369.453 86.25C369.453 82.9167 368.75 80.1042 367.344 77.8125C365.99 75.4688 363.464 73.3333 359.766 71.4062C356.068 69.4271 350.781 67.4219 343.906 65.3906C338.385 63.776 333.359 61.9271 328.828 59.8438C324.349 57.7604 320.443 55.3906 317.109 52.7344C313.776 50.026 311.198 46.901 309.375 43.3594C307.604 39.8177 306.719 35.7552 306.719 31.1719C306.719 25.1302 308.385 19.7656 311.719 15.0781C315.052 10.3906 319.688 6.71875 325.625 4.0625C331.562 1.35417 338.464 0 346.328 0C354.87 0 362.188 1.58854 368.281 4.76562C374.375 7.94271 379.01 12.1615 382.188 17.4219C385.417 22.6823 387.031 28.4115 387.031 34.6094H369.297C369.297 30.651 368.464 27.1354 366.797 24.0625C365.13 20.9896 362.578 18.5938 359.141 16.875C355.755 15.1042 351.458 14.2188 346.25 14.2188C341.302 14.2188 337.214 14.974 333.984 16.4844C330.755 17.9427 328.359 19.9479 326.797 22.5C325.234 25 324.453 27.8646 324.453 31.0938C324.453 34.0625 325.339 36.6927 327.109 38.9844C328.932 41.276 331.719 43.3594 335.469 45.2344C339.219 47.0573 343.984 48.8281 349.766 50.5469C358.255 52.9427 365.26 55.7552 370.781 58.9844C376.354 62.2135 380.469 66.0417 383.125 70.4688C385.833 74.8958 387.188 80.1042 387.188 86.0938C387.188 92.3438 385.521 97.7865 382.188 102.422C378.906 107.057 374.245 110.625 368.203 113.125C362.214 115.625 355.156 116.875 347.031 116.875Z"
                 fill="black"
+                className={`origin-top transition-transform duration-700 delay-150 ease-out ${
+                  animateDown ? "translate-y-0" : "-translate-y-full"
+                }`}
               />
               <path
                 d="M288.438 61.7969C288.438 73.2031 286.51 83.0208 282.656 91.25C278.802 99.4792 273.385 105.807 266.406 110.234C259.479 114.661 251.354 116.875 242.031 116.875C232.917 116.875 224.818 114.661 217.734 110.234C210.703 105.807 205.182 99.4792 201.172 91.25C197.214 83.0208 195.234 73.2031 195.234 61.7969V55.1562C195.234 43.75 197.214 33.9323 201.172 25.7031C205.13 17.4219 210.625 11.0677 217.656 6.64062C224.688 2.21354 232.76 0 241.875 0C251.198 0 259.349 2.21354 266.328 6.64062C273.307 11.0677 278.724 17.4219 282.578 25.7031C286.484 33.9323 288.438 43.75 288.438 55.1562V61.7969ZM270.781 55C270.781 46.3021 269.635 38.9844 267.344 33.0469C265.052 27.0573 261.745 22.526 257.422 19.4531C253.151 16.3281 247.969 14.7656 241.875 14.7656C235.938 14.7656 230.807 16.3281 226.484 19.4531C222.161 22.526 218.828 27.0573 216.484 33.0469C214.141 38.9844 212.969 46.3021 212.969 55V61.7969C212.969 70.4948 214.141 77.8646 216.484 83.9062C218.88 89.8958 222.24 94.4531 226.562 97.5781C230.938 100.651 236.094 102.188 242.031 102.188C248.125 102.188 253.307 100.651 257.578 97.5781C261.901 94.4531 265.182 89.8958 267.422 83.9062C269.661 77.8646 270.781 70.4948 270.781 61.7969V55Z"
                 fill="black"
+                className={`origin-top transition-transform duration-700 delay-200 ease-out ${
+                  animateDown ? "translate-y-0" : "-translate-y-full"
+                }`}
               />
               <path
                 d="M181.953 115.312H121.875V101.094H181.953V115.312ZM126.172 115.312H108.438V1.5625H126.172V115.312ZM173.984 63.6719H121.875V49.6094H173.984V63.6719ZM181.328 15.8594H121.875V1.5625H181.328V15.8594Z"
                 fill="black"
+                className={`origin-top transition-transform duration-700 delay-300 ease-out ${
+                  animateDown ? "translate-y-0" : "-translate-y-full"
+                }`}
               />
               <path
                 d="M47.5781 56.9531L75.3125 1.5625H95.0781L56.4844 73.2031V115.312H38.5938V73.2031L0 1.5625H19.9219L47.5781 56.9531Z"
                 fill="black"
+                className={`origin-top transition-transform duration-700 delay-500 ease-out ${
+                  animateDown ? "translate-y-0" : "-translate-y-full"
+                }`}
               />
             </svg>
             {/* Text Area */}
@@ -339,10 +374,10 @@ export default function Home() {
             </div>
             {/* Button Group */}
             <div className="flex flex-row gap-4 z-10">
-              <Button className="font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
+              <Button className="focus:outline-none font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
                 Next
               </Button>
-              <Button className="font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
+              <Button className="focus:outline-none font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
                 Explore
               </Button>
             </div>

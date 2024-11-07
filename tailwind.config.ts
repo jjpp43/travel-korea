@@ -13,9 +13,14 @@ const config: Config = {
           '0%': { transform: 'translateY(100%)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+        popDown: {
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+        },
       },
       animation: {
         'pop-up': 'popUp 0.5s ease-out forwards',
+        'pop-down': 'popDown 0.5s ease-out forwards',
       },
       fontSize: {
         '10xl': '9rem', 
