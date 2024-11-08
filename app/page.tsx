@@ -13,7 +13,7 @@ export default function Home() {
 
   const { ref, inView } = useInView({
     triggerOnce: false, // Trigger multiple times
-    threshold: 0.3, // Trigger when 50% of the element is in the viewport
+    threshold: 0.5, // Trigger when 50% of the element is in the viewport
   });
 
   // Set the animation state when the element comes into view
@@ -99,12 +99,13 @@ export default function Home() {
           <div className="absolute bottom-0 right-0 flex flex-col items-end pb-8 pr-8">
             <div className="font-cardo flex-wrap w-80 text-lg text-end align-top">
               <TypeAnimation
+                className="text-xl font-bold"
                 sequence={["A DYNAMIC CITY"]}
                 wrapper="span"
                 speed={2}
                 style={{ display: "inline-block" }}
               />
-              <div className="text-base">
+              <div className="text-lg">
                 where centuries-old palaces meet cutting-edge technology,
                 offering a unique glimpse into both Korea’s rich history and
                 modern innovation.
@@ -123,12 +124,15 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <div className="h-96">
+        <EmblaCarousel />
+      </div>
       {/* BUSAN */}
       <div className="flex flex-col justify-center items-center h-screen bg-white">
         {/* 1280 * 720 */}
         <div className="relative w-[1280px] h-[720px]">
           {/* BUSAN Text */}
-          <div className="absolute left-0 z-10">
+          <div className="absolute left-0 z-30 mix-blend-normal">
             <svg
               width="496"
               height="118"
@@ -145,9 +149,16 @@ export default function Home() {
             </svg>
           </div>
           {/* Title */}
-          <div className="absolute left-0 top-1/4 text-black text-start tracking-tight text-3xl font-crimson font-semibold">
+          {/* <div className="absolute left-0 top-1/4 text-black text-start tracking-tight text-3xl font-crimson font-semibold">
             Explore the spirit
-          </div>
+          </div> */}
+          <TypeAnimation
+            className="absolute left-0 top-1/4 text-black text-xl font-bold font-cardo"
+            sequence={["EXPLORE THE SPIRIT"]}
+            wrapper="span"
+            speed={2}
+            style={{ display: "inline-block" }}
+          />
           {/* Button Group */}
           <div className="absolute left-0 bottom-24 flex flex-row gap-4 pt-8">
             <Button className="focus:outline-none font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
@@ -166,7 +177,7 @@ export default function Home() {
             coast, making it a must-visit destination for every traveler.
           </div>
           {/* Image */}
-          <div className="absolute right-0 bottom-24">
+          <div className="absolute right-0 bottom-24 z-20">
             <Image
               alt="Picture of Busan"
               src="/busan.png"
@@ -174,14 +185,26 @@ export default function Home() {
               height={540}
             />
           </div>
+
+          <div className="absolute right-64 bg-[#FDBDBD]/70 filter blur-2xl opacity-90 w-64 h-64 rounded-full"></div>
+          <div className="absolute right-0 bottom-0 bg-[#BDEBFD]/70 filter blur-2xl opacity-90 w-64 h-64 rounded-full"></div>
         </div>
       </div>
+
       {/* SOKCHO */}
       <div className="flex flex-col justify-center items-center h-screen bg-black">
         {/* 1280 * 720 */}
-        <div className="relative w-[1280px] h-[720px]">
+        <div className="flex flex-row justify-between w-[1280px] h-[720px]">
+          {/* Left Side */}
+          <EmblaCarousel />
+          {/* Divider */}
+          <div
+            className={`w-1 h-full bg-white transition-transform delay-200 duration-1000 ease-in-out ${
+              animate ? "scale-y-100" : "scale-y-0"
+            }`}
+          ></div>
           {/* Right Side */}
-          <div className="absolute right-0 flex flex-col justify-between h-full w-fit">
+          <div className="flex flex-col justify-between h-full w-fit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="622"
@@ -282,14 +305,25 @@ export default function Home() {
                 </linearGradient>
               </defs>
             </svg>
-            <div className="text-start tracking-tight text-3xl font-crimson font-semibold">
-              Quiant Getaway
+            <div className="flex flex-col gap-4">
+              {/* Heading */}
+              <div className="inline-block">
+                <TypeAnimation
+                  className="text-white text-xl font-bold font-cardo"
+                  sequence={["QUAINT GETAWAY"]}
+                  wrapper="span"
+                  speed={2}
+                  style={{ display: "inline-block" }}
+                />
+              </div>
+              {/* Text Area */}
+              <div className="font-cardo text-lg text-balance leading-normal w-[630px] text-start ">
+                Sokcho is one of the most nature friendly and environmentally
+                clean cities in South Korea. With beautiful scenaries of the sea
+                and mountains.
+              </div>
             </div>
-            <div className="font-cardo text-lg text-balance leading-normal w-[630px] text-start ">
-              Sokcho is one of the most nature friendly and environmentally
-              clean cities in South Korea. With beautiful scenaries of the sea
-              and mountains.
-            </div>
+
             {/* Image - bottom right */}
             <div className="relative">
               <Image
@@ -309,8 +343,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Left Side */}
-          <EmblaCarousel />
         </div>
       </div>
       {/* YEOSU */}
@@ -331,55 +363,73 @@ export default function Home() {
                 d="M487.422 1.5625V77.8906C487.422 86.5365 485.521 93.75 481.719 99.5312C477.917 105.26 472.839 109.583 466.484 112.5C460.13 115.417 453.125 116.875 445.469 116.875C437.5 116.875 430.339 115.417 423.984 112.5C417.682 109.583 412.708 105.26 409.062 99.5312C405.417 93.75 403.594 86.5365 403.594 77.8906V1.5625H421.172V77.8906C421.172 83.5677 422.161 88.2292 424.141 91.875C426.172 95.5208 429.01 98.2292 432.656 100C436.302 101.771 440.573 102.656 445.469 102.656C450.417 102.656 454.688 101.771 458.281 100C461.927 98.2292 464.74 95.5208 466.719 91.875C468.698 88.2292 469.688 83.5677 469.688 77.8906V1.5625H487.422Z"
                 fill="black"
                 className={`origin-top transition-transform duration-700 delay-100 ease-out ${
-                  animateDown ? "translate-y-0" : "-translate-y-full"
+                  animateDown ? "-scale-y-full" : "scale-y-0"
                 }`}
               />
               <path
                 d="M347.031 116.875C341.667 116.875 336.38 116.146 331.172 114.688C326.016 113.229 321.302 111.016 317.031 108.047C312.812 105.078 309.453 101.38 306.953 96.9531C304.453 92.526 303.203 87.3698 303.203 81.4844H320.859C320.859 85.2344 321.536 88.4635 322.891 91.1719C324.297 93.8281 326.198 96.0156 328.594 97.7344C331.042 99.4531 333.828 100.729 336.953 101.562C340.13 102.344 343.49 102.734 347.031 102.734C351.927 102.734 356.016 102.057 359.297 100.703C362.63 99.2969 365.156 97.3698 366.875 94.9219C368.594 92.4219 369.453 89.5312 369.453 86.25C369.453 82.9167 368.75 80.1042 367.344 77.8125C365.99 75.4688 363.464 73.3333 359.766 71.4062C356.068 69.4271 350.781 67.4219 343.906 65.3906C338.385 63.776 333.359 61.9271 328.828 59.8438C324.349 57.7604 320.443 55.3906 317.109 52.7344C313.776 50.026 311.198 46.901 309.375 43.3594C307.604 39.8177 306.719 35.7552 306.719 31.1719C306.719 25.1302 308.385 19.7656 311.719 15.0781C315.052 10.3906 319.688 6.71875 325.625 4.0625C331.562 1.35417 338.464 0 346.328 0C354.87 0 362.188 1.58854 368.281 4.76562C374.375 7.94271 379.01 12.1615 382.188 17.4219C385.417 22.6823 387.031 28.4115 387.031 34.6094H369.297C369.297 30.651 368.464 27.1354 366.797 24.0625C365.13 20.9896 362.578 18.5938 359.141 16.875C355.755 15.1042 351.458 14.2188 346.25 14.2188C341.302 14.2188 337.214 14.974 333.984 16.4844C330.755 17.9427 328.359 19.9479 326.797 22.5C325.234 25 324.453 27.8646 324.453 31.0938C324.453 34.0625 325.339 36.6927 327.109 38.9844C328.932 41.276 331.719 43.3594 335.469 45.2344C339.219 47.0573 343.984 48.8281 349.766 50.5469C358.255 52.9427 365.26 55.7552 370.781 58.9844C376.354 62.2135 380.469 66.0417 383.125 70.4688C385.833 74.8958 387.188 80.1042 387.188 86.0938C387.188 92.3438 385.521 97.7865 382.188 102.422C378.906 107.057 374.245 110.625 368.203 113.125C362.214 115.625 355.156 116.875 347.031 116.875Z"
                 fill="black"
                 className={`origin-top transition-transform duration-700 delay-150 ease-out ${
-                  animateDown ? "translate-y-0" : "-translate-y-full"
+                  animateDown ? "-scale-y-full" : "scale-y-0"
                 }`}
               />
               <path
                 d="M288.438 61.7969C288.438 73.2031 286.51 83.0208 282.656 91.25C278.802 99.4792 273.385 105.807 266.406 110.234C259.479 114.661 251.354 116.875 242.031 116.875C232.917 116.875 224.818 114.661 217.734 110.234C210.703 105.807 205.182 99.4792 201.172 91.25C197.214 83.0208 195.234 73.2031 195.234 61.7969V55.1562C195.234 43.75 197.214 33.9323 201.172 25.7031C205.13 17.4219 210.625 11.0677 217.656 6.64062C224.688 2.21354 232.76 0 241.875 0C251.198 0 259.349 2.21354 266.328 6.64062C273.307 11.0677 278.724 17.4219 282.578 25.7031C286.484 33.9323 288.438 43.75 288.438 55.1562V61.7969ZM270.781 55C270.781 46.3021 269.635 38.9844 267.344 33.0469C265.052 27.0573 261.745 22.526 257.422 19.4531C253.151 16.3281 247.969 14.7656 241.875 14.7656C235.938 14.7656 230.807 16.3281 226.484 19.4531C222.161 22.526 218.828 27.0573 216.484 33.0469C214.141 38.9844 212.969 46.3021 212.969 55V61.7969C212.969 70.4948 214.141 77.8646 216.484 83.9062C218.88 89.8958 222.24 94.4531 226.562 97.5781C230.938 100.651 236.094 102.188 242.031 102.188C248.125 102.188 253.307 100.651 257.578 97.5781C261.901 94.4531 265.182 89.8958 267.422 83.9062C269.661 77.8646 270.781 70.4948 270.781 61.7969V55Z"
                 fill="black"
                 className={`origin-top transition-transform duration-700 delay-200 ease-out ${
-                  animateDown ? "translate-y-0" : "-translate-y-full"
+                  animateDown ? "-scale-y-full" : "scale-y-0"
                 }`}
               />
               <path
                 d="M181.953 115.312H121.875V101.094H181.953V115.312ZM126.172 115.312H108.438V1.5625H126.172V115.312ZM173.984 63.6719H121.875V49.6094H173.984V63.6719ZM181.328 15.8594H121.875V1.5625H181.328V15.8594Z"
                 fill="black"
                 className={`origin-top transition-transform duration-700 delay-300 ease-out ${
-                  animateDown ? "translate-y-0" : "-translate-y-full"
+                  animateDown ? "-scale-y-full" : "scale-y-0"
                 }`}
               />
               <path
                 d="M47.5781 56.9531L75.3125 1.5625H95.0781L56.4844 73.2031V115.312H38.5938V73.2031L0 1.5625H19.9219L47.5781 56.9531Z"
                 fill="black"
                 className={`origin-top transition-transform duration-700 delay-500 ease-out ${
-                  animateDown ? "translate-y-0" : "-translate-y-full"
+                  animateDown ? "-scale-y-full" : "scale-y-0"
                 }`}
               />
             </svg>
-            {/* Text Area */}
-            <div className="font-cardo flex-wrap w-2/3 text-lg text-black text-balance leading-normal">
-              A vibrant coastal city in South Korea known for its breathtaking
-              ocean views, picturesque islands, and rich maritime history.
-              Famous for hosting the 2012 World Expo, Yeosu offers a blend of
-              cultural attractions, fresh seafood, and scenic spots like Odongdo
-              Island and the Yeosu Maritime Cable Car. This beautiful harbor
-              city is a paradise for nature lovers and explorers alike.
-            </div>
-            {/* Button Group */}
-            <div className="flex flex-row gap-4 z-10">
-              <Button className="focus:outline-none font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
-                Next
-              </Button>
-              <Button className="focus:outline-none font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
-                Explore
-              </Button>
+            {/* Divider */}
+            <div
+              className={`h-1 w-[740px] bg-black transition-transform origin-left delay-200 duration-1000 ease-in-out ${
+                animate ? "scale-x-100" : "scale-x-0"
+              }`}
+            ></div>
+            <div className="flex flex-col gap-6 pt-2">
+              {/* Small heading */}
+              <div className="inline-block">
+                <TypeAnimation
+                  className="text-black text-xl font-bold font-cardo justify-start"
+                  sequence={["VIBRANT COASTAL CITY"]}
+                  wrapper="span"
+                  speed={2}
+                  style={{ display: "inline-block" }}
+                />
+              </div>
+              {/* Text Area */}
+              <div className="font-cardo flex-wrap w-1/2 text-lg text-black text-balance leading-normal">
+                Yeosu is known for its breathtaking ocean views, picturesque
+                islands, and rich maritime history. Famous for hosting the 2012
+                World Expo, Yeosu offers a blend of cultural attractions, fresh
+                seafood, and scenic spots like Odongdo Island and the Yeosu
+                Maritime Cable Car. This beautiful harbor city is a paradise for
+                nature lovers and explorers alike.
+              </div>
+              {/* Button Group */}
+              <div className="flex flex-row gap-4 z-10 pt-6">
+                <Button className="focus:outline-none font-archivo border-2 border-black text-black hover:bg-gray-200 duration-300 h-11 px-8">
+                  Next
+                </Button>
+                <Button className="focus:outline-none font-archivo h-11 bg-black hover:opacity-80 duration-300 text-white px-8">
+                  Explore
+                </Button>
+              </div>{" "}
             </div>
           </div>
           <div className="absolute bottom-0 w-full h-full flex flex-row justify-between items-end">

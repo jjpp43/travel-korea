@@ -10,12 +10,18 @@ export default function EmblaCarousel() {
       loop: true,
       axis: "y",
     },
-    [AutoScroll({ playOnInit: true })]
+    [
+      AutoScroll({
+        playOnInit: true, // Auto-scroll starts immediately
+        speed: 1,
+      }),
+    ]
   );
 
   useEffect(() => {
     if (emblaApi) {
-      console.log(emblaApi.slideNodes()); // Access API
+      emblaApi.reInit(); // Reinitialize to apply settings
+      console.log("Embla API initialized with auto-scroll.");
     }
   }, [emblaApi]);
 
