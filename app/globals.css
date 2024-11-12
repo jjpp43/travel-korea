@@ -20,6 +20,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.busan-text {
+  filter: invert(100);
+}
+
 /* Styling for Image Carousel */
 
 .embla__slide {
